@@ -1,0 +1,48 @@
+{
+    "relatori": [
+        {
+            "codice": "yv",
+            "nome": "Yuri Valentini",
+            "email": "yv@example.com"
+        },
+        {
+            "codice": "zp",
+            "nome": "Zio Paperone",
+            "email": "zp@example.com",
+            "twitter": "@ziopaperone"
+        }
+    ],
+    "proposte": [
+        {
+            "codice": 1000,
+            "codice_relatore": "yv",
+            "titolo": "Esperimenti di DDD in C++",
+            "sommario": "Da Event Storming a modello DDD a implementazione in C++17",
+            "disponibilita": {
+                "tipo": "date_specifiche",
+                "date_specifiche": [
+                    "2019/9/12"
+                ]
+            }
+        },
+        {
+            "codice": 1001,
+            "codice_relatore": "yv",
+            "titolo": "Bare metal programming in C++",
+            "sommario": "Programmazione di un microcontrollore stm32 in C++",
+            "disponibilita": {
+                "tipo": "dopo_una_data",
+                "dopo_una_data": "2019/10/1"
+            }
+        },
+        {
+            "codice": 2000,
+            "codice_relatore": "zp",
+            "titolo": "PaperBitDollar",
+            "sommario": "Realizziamo una cryptovaluta con C++",
+            "disponibilita": {
+                "tipo": "sempre"
+            }
+        }
+    ]
+}

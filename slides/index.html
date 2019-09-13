@@ -1,0 +1,519 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>dddcpp</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>Esperimenti di DDD in C++</h2>
+					<ul>
+						<li>Domain Driven Design</li>
+						<li>Event storming</li>
+						<li>Pianificatore meetup in C++</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Yuri Valentini</h2>
+					<ul>
+						<li>SW Windows e Linux</li>
+						<li>Linguaggi: C/C++, C#, Python</li>
+						<li>Videoconferenza e VOIP</li>
+						<li>yuroller [AT] gmail.com</li>
+						<li>https://github.com/yuroller</li>						
+					</ul>
+				</section>
+				<section>
+					<h2>Domain Modeling Made Functional</h2>
+					<p>Scott Wlaschin</p>
+					<p><img src="img/swdddf_xlargecover.jpg"/></p>
+				</section>
+				<section>
+					<h2>Obiettivi</h2>
+					<ul>
+						<li>provare design con DDD</li>
+						<li>sperimentare con C++17</li>
+						<li>optional, expected, variant</li>
+						<li>stili alternativi cpp (auto, east const)</li>
+						<li>cmake multipiattaforma</li>
+					</ul>
+				</section>
+				<section>
+					<h2>DDD</h2>
+					<ul>
+						<li>applicazioni business/enterprise</li>
+						<li>workflow e gestionali</li>
+						<li><b>NON</b> object oriented design</li>
+						<li><b>NON</b> database oriented design</li>
+					</ul>
+				</section>
+				<section>
+					<h2>DDD in breve 1</h2>
+					<p>Porre attenzione:</p>
+					<ul>
+						<li>su eventi business</li>
+						<li><b>NON</b> su strutture dati</li>
+					</ul>
+				</section>
+				<section>
+					<h2>DDD in breve 2</h2>
+					<p>Partizionare il problema in sottodomini</p>
+					<p>Dominio: area di cui l'utente &egrave; esperto</p>
+				</section>
+				<section>
+					<h2>DDD in breve 3</h2>
+					<p>Creare un modello per ciascun sottodominio</p>
+					<p>Modello: astrazione che coglie gli aspetti rileventi del problema</p>
+				</section>
+				<section>
+					<h2>DDD in breve 4</h2>
+					<p>Sviluppare un Ubiquitous Language condiviso</p>
+					<p><b>NON</b> si parla di:</p>
+					<ul>
+						<li>ProposalManager</li>
+						<li>CalendarHelper</li>
+						<li>AvailabilityFactory</li>
+					</ul>
+				</section>
+				<section>
+					<p><img src="img/eventstorming.jpg" width="400" /></p>
+				</section>
+				<section>
+					<h2>Eventi DDD</h2>
+					<ul>
+						<li>arancione</li>
+						<li>verbo al passato</li>
+						<li>qualcosa di significativo succede nel dominio</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Eventi Pianificatore</h2>
+					<ul>
+						<li>Letto/Validato file date meetup</li>
+						<li>Ricevuto/Validato elenco relatori</li>
+						<li>Ricevuto/Validato elenco proposte</li>
+						<li>Proposte votate</li>
+						<li>Calendario meetup creato</li>
+						<li>Calendario approvato</li>
+						<li>Calendario pubblicato</li>
+						<li>Relatori notificati</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Comandi DDD</h2>
+					<ul>
+						<li>azzurro</li>
+						<li>conseguenza di azione utente</li>
+						<li>causano eventi DDD</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Comandi Pianificatore</h2>
+					<ul>
+						<li>Avvia programma</li>
+						<li>Vota proposte</li>
+						<li>Approva calendario</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Sistemi esterni DDD</h2>
+					<ul>
+						<li>viola</li>
+						<li>provengono dall'esterno</li>
+						<li>conseguenza del tempo che passa</li>
+						<li>causano eventi DDD</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Sistemi esterni Pianificatore</h2>
+					<ul>
+						<li>valutatore proposte</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Aggregati DDD</h2>
+					<ul>
+						<li>giallo</li>
+						<li>raggruppa comandi ed eventi</li>
+						<li>riceve un comando</li>
+						<li>decide se eseguirlo</li>
+						<li>genera eventi DDD</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Aggregati Pianificatore</h2>
+					<ul>
+						<li>DateMeetup</li>
+						<li>Relatori</li>
+						<li>Proposte</li>
+						<li>Calendario</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Obiettivi Pianificatore in C++</h2>
+					<ul>
+						<li>rappresentare modello DDD</li>
+						<li>logica workflow</li>
+						<li>sfruttare il sistema di tipi c++</li>
+						<li>gestire errori nel percorso del workflow</li>
+						<li>no raw-pointers/nullptr</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Avvertenze</h2>
+					<ul>
+						<li>codice non adatto per la produzione</li>
+						<li>alcune idee sono ancora da sviluppare</li>
+						<li>ci possono essere problemi di performance</li>
+						<li>usa classi c++ non ancora standardizzate</li>
+						<li>verificare se &quot;resiste&quot; ai cambiamenti</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Implementazione C++</h2>
+					<ul>
+						<li>classi differenti per entit&agrave; in diverse fasi</li>
+						<li>es. ElencoProposteDto, ElencoProposte, ElencoProposteVotate</li>
+						<li>dati immutabili che si trasformanto nel workflow</li>
+						<li>no exception (interrompono il flusso)</li>
+						<li>istanze delle classi sempre valide (no .isValid())</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Workflow 1</h2>
+					<p>Acquisisci Input (side-effect)</p>
+					<ul>
+						<li>LeggiDateMeetup() &rarr; DateMeetupDto</li>
+						<li>RiceviRelatori() &rarr; RelatoriDto</li>			
+						<li>RiceviProposte() &rarr; ProposteDto</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Workflow 2</h2>
+					<p>Valida Dto (pure)</p>
+					<ul>
+						<li>DateMeetupDto &rarr; ValidaDM() &rarr; DateMeetup</li>
+						<li>RelatoriDto &rarr; ValidaRelatori() &rarr; Relatori</li>
+						<li>ProposteDto &rarr; ValidaProposte() &rarr; Proposte</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Workflow 3</h2>
+					<p>Business (pure)</p>
+					<ul>
+						<li>(Proposte,Relatori) &rarr; Vota() &rarr; ProposteVotate</li>
+						<li>(ProposteVotate,DateMeetup) &rarr; OrganizzaCal() &rarr; Calendario</li>
+						<li>Calendario &rarr; SerializzaCal() &rarr; CalendarioDto</li>
+					</ul>
+				</section>	
+				<section>
+					<h2>Workflow 4</h2>
+					<p>Emetti Output (side-effect)</p>
+					<ul>
+						<li>CalendarioDto &rarr; PubblicaCal()</li>
+						<li>Calendario &rarr; NotificaRelatori()</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Workflow commenti</h2>
+					<ul>
+						<li>side-effect &rarr; pure &rarr; side-effect</li>
+						<li>core &egrave; testabile facilmente</li>
+						<li>tipi specifici
+							<ol>
+								<li>impediscono stati non rappresentabili</li>
+								<li>servono da documentazione</li>
+								<li>contengono solo quello che serve</li>
+							</ol>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Elenco Proposte Dto</h2>
+					<ul>
+						<li>Data Transfer Object</li>
+						<li>Rappresenta il file di memorizzazione</li>
+						<li>Nel nostro caso lo creiamo da un file json</li>
+						<li>Lo rappresentiamo come <code class="c++">std::vector&lt;PropostaDto&gt;</code></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Elenco Proposte Dto Json</h2>
+					<pre><code class="json">[{
+  "codice": 1000,
+  "codice_relatore": "yv",
+  "titolo": "Esperimenti di DDD in C++",
+  "sommario": "Da Event Storming a ...",
+  "disponibilita": {
+    "tipo": "date_specifiche",
+    "date_specifiche": [ "2019/9/12" ]
+  }
+}]
+</code></pre>
+				</section>
+				<section>
+					<h2>Elenco Proposte Dto C++</h2>
+					<pre><code class="c++">class PropostaDto {
+public:
+  static auto CreaElenco(string const &json)
+	-> expected&lt;vector&lt;PropostaDto&gt;, Errore&gt;;
+  // getters ...
+private:
+  int codice_;
+  string codiceRelatore_;
+  string titolo_;
+  string sommario_;
+  TipoDisponibilita tipoDisponibilita_; // enum class
+  optional&lt;vector&lt;year_month_day&gt;&gt; dateDisponibilita_;
+  optional&lt;year_month_day&gt; dataInizioDisponibilita_;
+};</code></pre>
+				</section>
+				<section>
+					<h2>Tipo Disponibilita</h2>
+					<pre><code class="c++">enum class TipoDisponibilita {
+  SempreDisponibile,
+  DateSpecifiche,
+  DopoUnaData
+};</code></pre>
+				</section>
+				<section>
+					<h2>Errore</h2>
+					<pre><code class="c++">class Errore {
+public:
+  explicit Errore(string testo)
+    : testo_(move(testo)) {}
+  auto testo() const
+    -> string { return testo_; }
+private:
+  string testo_;
+  friend auto operator&lt;&lt;(ostream &os, Errore const &err)
+    -> ostream &;
+};</code></pre>
+				</section>
+				<section>
+					<h2>year_month_day</h2>
+					<ul>
+						<li><a href="https://github.com/HowardHinnant/date">Howard Hinnant date library</a></li>
+						<li>libreria header-only</li>
+						<li>basata su <code class="c++">std::crono</code></li>
+						<li>attenzione a date non valide <code class="c++">date::year(2019)/2/30</code></li>
+					</ul>
+				</section>
+				<section>
+					<h2>Utilizzo year_month_day</h2>
+					<pre><code class="c++">using namespace date;
+auto d = year(2019) / 9 / 12;
+d.ok(); // true
+d.year(); // year(2019)
+d.month(); // month(9)
+d.day(); // day(12)</code></pre>
+				</section>
+				<section>
+					<h2>optional</h2>
+					<ul>
+						<li>disponibile in c++17 ma uso versione <a href="https://github.com/TartanLlama/optional">TartanLlama</a></li>
+						<li>implementa <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0798r0.html">P0798R0: Monadic operations for std::optional</a></li>
+						<li>libreria header-only</li>
+						<li>tipo &quot;somma&quot; fra T e Unit</li>
+						<li>concatenabile</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Utilizzo optional C++17</h2>
+					<pre><code class="c++">using namespace std; // tl
+auto a = optional&lt;int&gt;(5); // make_optional(42)
+a.has_value(); // true
+*a; // 5
+
+auto b = optional&lt;int&gt;(nullopt);
+b.has_value(); // false
+*b; // Undefined Behaviour
+b.value_or(11); // 11</code></pre>
+				</section>
+				<section>
+					<h2>optional concatenazione</h2>
+					<pre><code class="c++">using namespace std;
+class Tweet;
+
+auto leggiIndirizzo() -> optional&lt;string&gt;;
+auto componiTweet(string const &indirizzo, string const &testo)
+  -> optional&lt;Tweet&gt;;
+auto inviaTweet(const Tweet& tweet) -> bool;</code></pre>
+				</section>
+				<section>
+					<h2>std::optional composizione</h2>
+					<pre><code class="c++">auto notificaConTweetCpp17() -> bool
+{
+  auto indirizzo = leggiIndirizzo();
+  if (!indirizzo)
+    return false;
+
+  auto tweet = componiTweet(*indirizzo, "tweet di notifica");
+  if (!tweet)
+    return false;
+
+  return inviaTweet(*tweet);
+}</code></pre>
+				</section>
+				<section>
+					<h2>tl::optional concatenazione</h2>
+					<pre><code class="c++">auto notificaConTweetTl() -> bool
+{
+  auto res = leggiIndirizzo()
+    .and_then([](string const& indirizzo) {
+      return componiTweet(indirizzo, "tweet di notifica");
+    })
+    .map(inviaTweet);
+  return res.value_or(false);
+}</code></pre>
+				</section>
+				<section>
+					<h2>expected</h2>
+					<ul>
+						<li>uso versione <a href="https://github.com/TartanLlama/expected">TartanLlama</a></li>
+						<li>estende <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0323r3.pdf">P0323R3: Utility class to represent expected object</a></li>
+						<li>libreria header-only</li>
+						<li>tipo &quot;somma&quot; fra T e TErrore</li>
+						<li>concatenabile</li>
+					</ul>
+				</section>
+				<section>
+					<h2>expected base</h2>
+					<pre><code class="c++">using namespace tl;
+enum class Err { FileNonTrovato, Generico, Conversione };
+
+auto a = expected&lt;int, Err&gt;(5);
+a.has_value(); // true
+*a; // 5;
+
+// auto b = tl::expected&lt;int, Err&gt;(
+//	 tl::unexpected(Err::Conversione));
+tl::expected&lt;int, Err&gt; b
+  = tl::make_unexpected(Err::Conversione);
+b.has_value(); // false;
+b.error(); // Err::Conversione</code></pre>
+				</section>
+				<section>
+					<h2>expected concatenazione 1</h2>
+					<pre><code class="c++">using namespace tl;
+class Errore;
+class Tweet;
+
+auto leggiIndirizzo() -> expected&lt;string, Errore&gt;;
+auto componiTweet(string const& indirizzo, string const& testo)
+  -> expected&lt;Tweet, Errore&gt;;
+auto inviaTweet(const Tweet& tweet) -> bool;</code></pre>
+				</section>
+				<section>
+					<h2>expected concatenazione 2</h2>
+					<pre><code class="c++">// expected&lt;std::monostate, Errore&gt;
+auto notificaConTweetExp() -> optional&lt;Errore&gt; {
+  auto res = leggiIndirizzo()
+    .and_then([](string const& indirizzo) {
+      return componiTweet(indirizzo, "tweet di notifica");
+    })
+    .map(inviaTweet);
+
+  if (!res) {
+    return nullopt;
+  }
+		
+  return res.error();
+}</code></pre>
+				</section>
+				<section>
+					<h2>Tipi Elevati</h2>
+					<ul>
+						<li>es. <code class="c++">expected&lt;T,E&gt;, optional&lt;T&gt;, vector&lt;T&gt;</code></li>
+						<li>concatenabili con <code class="c++">.and_then(), .map()</code> o template appositi</li>
+						<li>adattatore per funzione T &rarr; C applicabile a tipi elevati (es. vector&lt;T&gt; &rarr; vector&lt;C&gt;)</li>
+						<li>vedi FoldExpected, Apply nel codice di esempio</li>
+						<li>range-v3 rende concatenabili i container</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Tipi Unione</h2>
+					<p>DisponibilitaRelatore:</p>
+					<ul>
+						<li>QualunqueData</li>
+						<li>DateSpecifiche(lista di Date)</li>
+						<li>DopoUnaData(Data)</li>
+					</ul>
+				</section>
+				<section>
+					<h2>variant</h2>
+					<pre><code class="c++">auto intOrStr = variant&lt;int, string&gt;(15);
+auto n = get&lt;int&gt;(intOrStr); // 15
+auto s = get&lt;string&gt;(intOrStr); // exception</code></pre>
+				</section>
+				<section>
+					<h2>std::visit</h2>
+					<pre><code class="c++">template&lt;&lt;class... Ts&gt; struct overloaded : Ts... {
+  using Ts::operator()...;
+};
+template&lt;&lt;class... Ts&gt; overloaded(Ts...)-&gt;overloaded&lt;&lt;Ts...&gt;;
+
+visit(overloaded{
+  [](int num) { cout &lt;&lt; num + 1 &lt;&lt; endl; },
+  [](std::string const& str) { cout &lt;&lt; str &lt;&lt; endl; },
+}, IntOrStr);</code></pre>
+				</section>
+				<section>
+					<h2>Miglioramenti</h2>
+					<ul>
+						<li>diversi tipi di errore</li>
+						<li>tipi per gli elenchi proposti e non <code class="c++">std::vector</code></li>
+						<li>finire il codice per fare un eseguibile funzionante</li>
+						<li>funzioni asincrone</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Fine</h2>
+					<ul>
+						<li>Domande?</li>
+						<li>Dubbi?</li>
+						<li>Opinioni?</li>
+						<li>Grazie</li>
+					</ul>
+				</section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				history: true,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>

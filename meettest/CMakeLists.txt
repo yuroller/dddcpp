@@ -1,0 +1,9 @@
+add_executable(meettest
+    main.cpp
+    oggetti_valore_test.cpp
+    entita_test.cpp
+)
+target_link_libraries(meettest
+    meetlib
+    Catch2
+)
